@@ -42,6 +42,8 @@ func setupRouter() *gin.Engine {
 
 	auth := v1.Group("/auth")
 	auth.POST("/login", controller.LoginUser)
+	auth.POST("/refresh", controller.RefreshToken)
+	auth.GET("/validate", middleware.JwtAuthMiddleWare([]string{}), controller.ValidateToken)
 
 	user := v1.Group("/user")
 	user.GET("/current", middleware.JwtAuthMiddleWare([]string{}), controller.CurrentUser)
@@ -81,11 +83,12 @@ func createDefaults() {
 	}
 
 	defaultUser := model.User{
-		Email:     "admin@example.com",
-		FirstName: "Admin",
-		LastName:  "Admin",
-		Password:  "admin123",
-		Roles:     []model.Role{roleAdministrator},
+		Email:          "admin@example.com",
+		FirstName:      "Admin",
+		LastName:       "Admin",
+		Password:       "admin123",
+		ProfilePicture: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+		Roles:          []model.Role{roleAdministrator},
 	}
 	_, err = defaultUser.CreateUser()
 	if err != nil {

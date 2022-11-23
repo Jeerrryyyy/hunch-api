@@ -9,12 +9,13 @@ import (
 )
 
 type User struct {
-	ID        uint   `gorm:"primary_key;auto_increment" json:"id"`
-	Email     string `gorm:"size:255;not null;unique" json:"email"`
-	FirstName string `gorm:"size:255;not null;" json:"firstName"`
-	LastName  string `gorm:"size:255;not null;" json:"lastName"`
-	Password  string `gorm:"size:255;not null;" json:"password"`
-	Roles     []Role `gorm:"many2many:user_roles;" json:"roles"`
+	ID             uint   `gorm:"primary_key;auto_increment" json:"id"`
+	Email          string `gorm:"size:255;not null;unique" json:"email"`
+	FirstName      string `gorm:"size:255;not null;" json:"firstName"`
+	LastName       string `gorm:"size:255;not null;" json:"lastName"`
+	Password       string `gorm:"size:255;not null;" json:"password"`
+	ProfilePicture string `gorm:"size:255;" json:"profilePicture"`
+	Roles          []Role `gorm:"many2many:user_roles;" json:"roles"`
 }
 
 func (user *User) PrepareGive() {

@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"hunch-api/src/api/service"
+	"hunch-api/src/util/token"
 	"net/http"
 )
 
@@ -22,11 +23,22 @@ func LoginUser(context *gin.Context) {
 	accessToken, refreshToken, err := service.LoginCheck(loginInput.Email, loginInput.Password)
 
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "email or password is incorrect"})
+		context.JSON(http.StatusUnauthorized, gin.H{"error": "email or password is incorrect"})
 		return
 	}
 
 	context.JSON(http.StatusOK, gin.H{"accessToken": accessToken, "refreshToken": refreshToken})
+}
+
+func ValidateToken(context *gin.Context) {
+	err := token.ValidateToken(context)
+
+	if err != nil {
+		context.JSON(http.StatusOK, gin.H{"valid": false, "error": err.Error()})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"valid": true, "error": nil})
 }
 
 func RefreshToken(context *gin.Context) {
