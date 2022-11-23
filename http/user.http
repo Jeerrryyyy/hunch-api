@@ -1,0 +1,30 @@
+### Create a new user
+POST {{baseUrl}}/user/create
+Content-Type: application/json
+
+{
+  "email": "jerry@test.me",
+  "firstName": "Jerry",
+  "lastName": "Mustermann",
+  "username": "Jevzo",
+  "password": "Sicheres Passwort",
+  "roles": []
+}
+
+### Login to a user account
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "XVlBzgbaiCMRAjWw"
+}
+
+> {%
+    client.global.set("accessToken", response.body.accessToken)
+    client.global.set("refreshToken", response.body.refreshToken)
+%}
+
+### Get current user
+GET {{baseUrl}}/user/current
+Authorization: Bearer {{accessToken}}
