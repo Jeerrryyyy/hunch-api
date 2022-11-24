@@ -29,7 +29,6 @@ type RegisterInput struct {
 	Email     string   `json:"email" binding:"required"`
 	FirstName string   `json:"firstName" binding:"required"`
 	LastName  string   `json:"lastName" binding:"required"`
-	Username  string   `json:"username" binding:"required"`
 	Password  string   `json:"password" binding:"required"`
 	Roles     []string `json:"roles" binding:"required"`
 }
@@ -55,11 +54,12 @@ func CreateUser(context *gin.Context) {
 	}
 
 	user := model.User{
-		Email:     registerInput.Email,
-		FirstName: registerInput.FirstName,
-		LastName:  registerInput.LastName,
-		Password:  registerInput.Password,
-		Roles:     roles,
+		Email:          registerInput.Email,
+		FirstName:      registerInput.FirstName,
+		LastName:       registerInput.LastName,
+		Password:       registerInput.Password,
+		ProfilePicture: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+		Roles:          roles,
 	}
 
 	_, err := user.CreateUser()
